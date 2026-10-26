@@ -52,6 +52,6 @@ The app is a Streamlit application; GitHub Pages cannot host its Python runtime.
 
 ## Capstone report
 
-See [PROJECT_REPORT.md](PROJECT_REPORT.md) for the detailed capstone report, including the system architecture, implementation, execution outputs, benchmark results, limitations, and references.
+See [PROJECT_REPORT.md](PROJECT_REPORT.md) for the detailed capstone report in Markdown, or open [PROJECT_REPORT.docx](PROJECT_REPORT.docx) for the Word version ready to edit/print. The report includes the system architecture, implementation, execution outputs, benchmark results, limitations, and references.
 
 For uploads or camera captures, place one sign near the center and make it fill most of the image. The classifier does not find signs within a full road scene. Its classes are limited to GTSRB, so it cannot identify arbitrary signs from every country, and benchmark performance does not guarantee real-world accuracy. Do not rely on predictions for driving decisions.

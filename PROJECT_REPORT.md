@@ -33,11 +33,11 @@ The model is a classifier, not an object detector: it does not locate signs in a
 
 ## 3. Problem Statement and Objectives
 
-### 2.1 Problem statement
+### 3.1 Problem statement
 
 Build a program that accepts an image containing a traffic sign and predicts its category. The model should learn visual features from labeled examples, generalize beyond the training images, and expose its prediction in a usable application. Similar-looking signs, differences in illumination and viewpoint, class imbalance, and small input images make this a non-trivial classification task.
 
-### 2.2 Objectives
+### 3.2 Objectives
 
 1. Use the GTSRB benchmark to train a 43-class traffic-sign classifier.
 2. Resize and normalize images consistently for model training, evaluation, and application inference.
@@ -47,7 +47,7 @@ Build a program that accepts an image containing a traffic sign and predicts its
 6. Build a Streamlit interface for sample-based testing, uploaded photographs, camera captures, and sign-class browsing.
 7. Document the system's scope and limitations rather than claiming universal recognition or safety.
 
-### 2.3 Scope and assumptions
+### 3.3 Scope and assumptions
 
 - There is one prominent sign in the input image, preferably centered and cropped closely.
 - The expected output is one of 43 GTSRB class labels.
@@ -58,7 +58,7 @@ Build a program that accepts an image containing a traffic sign and predicts its
 
 ## 4. Software and Hardware Requirements, Datasets
 
-### 3.1 Software requirements
+### 4.1 Software requirements
 
 | Component | Version / requirement |
 |---|---|
@@ -86,7 +86,7 @@ streamlit run app.py
 
 To train or evaluate, run the corresponding Python scripts from the project root, where the `data/` directory and model file are located.
 
-### 3.2 Hardware requirements
+### 4.2 Hardware requirements
 
 **Machine used for this project**
 
@@ -99,7 +99,7 @@ To train or evaluate, run the corresponding Python scripts from the project root
 
 **Practical requirements:** A 64-bit computer with Python 3.13, a modern CPU, approximately 8 GB RAM, and enough free storage for the project, dependencies, extracted GTSRB images, and training outputs is suitable for reproducing this run. A supported accelerator can shorten training, but no GPU is required for the saved model to perform inference. Exact training time depends on the computer and software environment.
 
-### 3.3 Dataset
+### 4.3 Dataset
 
 The project uses the **German Traffic Sign Recognition Benchmark (GTSRB)**, a labeled image benchmark with 43 traffic-sign classes. The project data contains CSV metadata with columns for image dimensions, ROI coordinates, class ID, and relative image path.
 
@@ -120,11 +120,11 @@ The complete dataset archive is approximately 642 MB and is intentionally exclud
 
 ## 5. System Architecture Diagram
 
-![Traffic sign recognition system architecture](screenshots/system_architecture.svg)
+![Traffic sign recognition system architecture](screenshots/system_architecture.png)
 
 **Figure 1.** Data flow from the GTSRB data and image preprocessing to CNN training, the saved model, the Streamlit application, and held-out test evaluation.
 
-### 4.1 Architecture components
+### 5.1 Architecture components
 
 1. **Dataset:** Labeled GTSRB images and a separate held-out test set.
 2. **Preprocessing:** RGB decoding, 64 x 64 resize, and pixel normalization.
@@ -137,19 +137,19 @@ The complete dataset archive is approximately 642 MB and is intentionally exclud
 
 ## 6. Implementation Details
 
-### 5.1 Data loading and preprocessing
+### 6.1 Data loading and preprocessing
 
 The preprocessing module reads image paths and class IDs from `Train.csv` and `Test.csv`. TensorFlow's `tf.data` pipeline reads and decodes images on demand, resizes them to 64 x 64, normalizes the image tensor, batches examples, and prefetches batches. This avoids holding all decoded images in memory at once.
 
 The validation split is generated per class with a fixed random seed. Training examples are shuffled on each epoch. Training examples are weighted inversely by class frequency to reduce the effect of class imbalance; validation and test measurements use the original, unweighted examples.
 
-### 5.2 Data augmentation and generalization
+### 6.2 Data augmentation and generalization
 
 Augmentation layers run during training only. The model applies small random rotation, translation, zoom, brightness, and contrast changes. Horizontal flipping is deliberately disabled because it could change the meaning of directional signs. Additional generalization measures are batch normalization, dropout, L2 kernel regularization, learning-rate reduction when validation loss plateaus, and early stopping.
 
 These techniques help limit overfitting but do not prove that the network cannot memorize examples or guarantee performance on previously unseen environments.
 
-### 5.3 CNN model architecture
+### 6.3 CNN model architecture
 
 The model input is a normalized **64 x 64 x 3** RGB tensor. It produces 43 softmax class probabilities.
 
@@ -163,7 +163,7 @@ The model input is a normalized **64 x 64 x 3** RGB tensor. It produces 43 softm
 | Dense head | 256-unit ReLU dense layer, L2 regularization, dropout | 256 |
 | Output | Softmax dense layer | 43 classes |
 
-### 5.4 Training configuration
+### 6.4 Training configuration
 
 | Parameter | Value used |
 |---|---|
@@ -181,7 +181,7 @@ The model input is a normalized **64 x 64 x 3** RGB tensor. It produces 43 softm
 
 The training script supports a maximum of 30 epochs by default, but the reported saved model came from a run capped at 20 epochs. The best model checkpoint was from epoch 17, with **98.69% validation accuracy**. Validation accuracy is a model-selection result, not the final test score.
 
-### 5.5 Application implementation
+### 6.5 Application implementation
 
 The Streamlit app provides four modes: included sample images, user image upload, camera capture, and a 43-class catalog. For image inference, the app converts the input to RGB, resizes it to the model's input dimensions, normalizes its pixel values, and calls the saved model. The page displays the predicted label, confidence score, and top-five class probabilities.
 
@@ -213,7 +213,7 @@ The repository is published, but the Streamlit app itself has **not** been deplo
 
 The following figures are generated from the completed model run and project evaluation artifacts. The inference figure uses the app's RGB conversion, Pillow resize, normalization, and the saved model; it is a report visualization of the actual inference result rather than a capture of the entire browser window.
 
-### 6.1 Sample inference output
+### 7.1 Sample inference output
 
 ![Executed model prediction for the Stop-sign demo image](screenshots/sample_prediction_output.png)
 
@@ -226,13 +226,13 @@ Input: data\samples\sample_14_stop.png
 Prediction: Stop | confidence=99.85% | expected=14 | match=True
 ```
 
-### 6.2 Training output
+### 7.2 Training output
 
 ![Training and validation accuracy/loss curves](training_history.png)
 
 **Figure 3.** Training and validation accuracy and loss across the completed 20-epoch training run. The best validation checkpoint was restored from epoch 17.
 
-### 6.3 Test-set evaluation output
+### 7.3 Test-set evaluation output
 
 ![GTSRB test-set confusion matrix](confusion_matrix.png)
 
@@ -252,11 +252,11 @@ The detailed report file contains the per-class precision, recall, F1-score, and
 
 ## 8. Testing and Results
 
-### 7.1 Evaluation procedure
+### 8.1 Evaluation procedure
 
 The final model was loaded from `traffic_sign_model.keras`, then predictions were generated for all records listed in the separate `Test.csv`. Predicted labels were calculated with the highest softmax probability. Overall accuracy and per-class precision, recall, and F1-score were computed against the provided ground-truth class IDs.
 
-### 7.2 Held-out test results
+### 8.2 Held-out test results
 
 | Metric | Result |
 |---|---:|
@@ -275,7 +275,7 @@ Macro F1 is the average of the per-class F1-scores, so each class contributes eq
 | Dangerous curve left | 75.00% | 60 |
 | Bumpy road | 75.83% | 120 |
 
-### 7.3 Functional checks
+### 8.3 Functional checks
 
 | Check | Observed result |
 |---|---|
@@ -292,13 +292,13 @@ The ten sample images are curated demo cases and should not be interpreted as a 
 
 ## 9. Conclusion and Future Enhancements
 
-### 8.1 Conclusion
+### 9.1 Conclusion
 
 This project delivered a working 43-class GTSRB traffic-sign image classifier, a reproducible training and evaluation pipeline, and a Streamlit demonstration application. The final saved model uses 64 x 64 RGB inputs and generalization measures including class weighting, training-only augmentation, dropout, L2 regularization, early stopping, and best-validation checkpoint selection.
 
 On the separate benchmark test set, the model achieved **95.53% accuracy** and **94.97% macro F1**. The app also loaded the model successfully and produced the expected result for all ten included demo samples. Per-class recall varies, and the measured benchmark performance does not guarantee correctness for arbitrary real-world images.
 
-### 8.2 Limitations
+### 9.2 Limitations
 
 - The system recognizes only the 43 GTSRB labels; it does not recognize every road sign worldwide or explicitly detect unknown classes.
 - The model classifies the supplied image and does not locate a sign in a full road scene.
@@ -308,7 +308,7 @@ On the separate benchmark test set, the model achieved **95.53% accuracy** and *
 - Softmax confidence is not calibrated uncertainty and is not proof of correctness.
 - The project is educational and is not a safety-certified driving system.
 
-### 8.3 Future enhancements
+### 9.3 Future enhancements
 
 1. Add and evaluate a sign-detection stage so full road scenes can be processed.
 2. Test on independently collected images from different countries, cameras, weather, and lighting conditions.
