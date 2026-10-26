@@ -50,4 +50,8 @@ streamlit run app.py
 
 The app is a Streamlit application; GitHub Pages cannot host its Python runtime. This repository contains the app source and trained model, but does not include the large dataset, virtual environment, or local secrets. After pushing the repository to GitHub, the app can later be deployed through Streamlit Community Cloud by selecting `app.py` as the entry point.
 
+## Capstone report
+
+See [PROJECT_REPORT.md](PROJECT_REPORT.md) for the detailed capstone report, including the system architecture, implementation, execution outputs, benchmark results, limitations, and references.
+
 For uploads or camera captures, place one sign near the center and make it fill most of the image. The classifier does not find signs within a full road scene. Its classes are limited to GTSRB, so it cannot identify arbitrary signs from every country, and benchmark performance does not guarantee real-world accuracy. Do not rely on predictions for driving decisions.

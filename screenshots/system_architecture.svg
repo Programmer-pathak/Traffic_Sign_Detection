@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">Traffic sign recognition system architecture</title>
+  <desc id="desc">The GTSRB training split is preprocessed and used to train a CNN saved as a Keras model. Demo, upload, camera, and separate held-out test images use the saved model for inference. Test predictions and ground-truth labels feed final evaluation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#334155"/>
+    </marker>
+    <style>
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .title { font: 700 24px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 18px Arial, sans-serif; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .caption { font: 700 30px Arial, sans-serif; fill: #0f172a; }
+      .lane { font: 700 20px Arial, sans-serif; fill: #475569; }
+    </style>
+  </defs>
+  <rect width="1500" height="900" fill="#f8fafc"/>
+  <text x="750" y="52" text-anchor="middle" class="caption">Traffic Sign Recognition: System Architecture</text>
+  <text x="55" y="110" class="lane">TRAINING AND MODEL SAVING</text>
+
+  <rect x="50" y="135" width="300" height="150" class="box" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="200" y="178" text-anchor="middle" class="title">GTSRB Training Split</text>
+  <text x="200" y="218" text-anchor="middle" class="text">Images and class labels</text>
+  <text x="200" y="250" text-anchor="middle" class="text">Train / validation split</text>
+
+  <rect x="410" y="135" width="300" height="150" class="box" fill="#dcfce7" stroke="#22c55e"/>
+  <text x="560" y="178" text-anchor="middle" class="title">Preprocessing</text>
+  <text x="560" y="218" text-anchor="middle" class="text">Decode RGB and resize</text>
+  <text x="560" y="250" text-anchor="middle" class="text">64 x 64; normalize [0, 1]</text>
+
+  <rect x="770" y="135" width="300" height="150" class="box" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="920" y="178" text-anchor="middle" class="title">CNN Training</text>
+  <text x="920" y="218" text-anchor="middle" class="text">Augmentation and class weights</text>
+  <text x="920" y="250" text-anchor="middle" class="text">Regularization and callbacks</text>
+
+  <rect x="1130" y="135" width="320" height="150" class="box" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="1290" y="178" text-anchor="middle" class="title">Saved Best Model</text>
+  <text x="1290" y="218" text-anchor="middle" class="text">traffic_sign_model.keras</text>
+  <text x="1290" y="250" text-anchor="middle" class="text">43-class classifier</text>
+
+  <path d="M 350 210 H 400" class="arrow"/>
+  <path d="M 710 210 H 760" class="arrow"/>
+  <path d="M 1070 210 H 1120" class="arrow"/>
+
+  <text x="55" y="370" class="lane">APPLICATION INFERENCE AND HELD-OUT TESTING</text>
+
+  <rect x="50" y="395" width="300" height="165" class="box" fill="#fce7f3" stroke="#ec4899"/>
+  <text x="200" y="438" text-anchor="middle" class="title">Image Inputs</text>
+  <text x="200" y="478" text-anchor="middle" class="text">Demo, upload, or camera</text>
+  <text x="200" y="510" text-anchor="middle" class="text">Held-out test images</text>
+
+  <rect x="410" y="395" width="300" height="165" class="box" fill="#dcfce7" stroke="#22c55e"/>
+  <text x="560" y="438" text-anchor="middle" class="title">Inference Preprocessing</text>
+  <text x="560" y="478" text-anchor="middle" class="text">RGB and 64 x 64 resize</text>
+  <text x="560" y="510" text-anchor="middle" class="text">Same normalization</text>
+
+  <rect x="770" y="395" width="300" height="165" class="box" fill="#ede9fe" stroke="#8b5cf6"/>
+  <text x="920" y="438" text-anchor="middle" class="title">Model Inference</text>
+  <text x="920" y="478" text-anchor="middle" class="text">Load saved CNN</text>
+  <text x="920" y="510" text-anchor="middle" class="text">Predict 43 probabilities</text>
+
+  <rect x="1130" y="395" width="320" height="165" class="box" fill="#e0f2fe" stroke="#0ea5e9"/>
+  <text x="1290" y="438" text-anchor="middle" class="title">Prediction Output</text>
+  <text x="1290" y="478" text-anchor="middle" class="text">Class and confidence</text>
+  <text x="1290" y="510" text-anchor="middle" class="text">Top-five probabilities</text>
+
+  <path d="M 350 475 H 400" class="arrow"/>
+  <path d="M 710 475 H 760" class="arrow"/>
+  <path d="M 1070 475 H 1120" class="arrow"/>
+  <path d="M 1290 295 V 385" class="arrow"/>
+
+  <rect x="770" y="665" width="300" height="135" class="box" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="920" y="710" text-anchor="middle" class="title">Held-out Test Labels</text>
+  <text x="920" y="750" text-anchor="middle" class="text">Ground-truth class IDs</text>
+
+  <rect x="1130" y="665" width="320" height="135" class="box" fill="#ffedd5" stroke="#f97316"/>
+  <text x="1290" y="710" text-anchor="middle" class="title">Evaluation Results</text>
+  <text x="1290" y="750" text-anchor="middle" class="text">Accuracy, class F1, matrix</text>
+
+  <path d="M 1290 560 V 655" class="arrow"/>
+  <path d="M 1070 732 H 1120" class="arrow"/>
+  <text x="750" y="855" text-anchor="middle" class="text">The test split is kept separate from training and checkpoint selection.</text>
+</svg>
