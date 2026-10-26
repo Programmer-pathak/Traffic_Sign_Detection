@@ -1,0 +1,21 @@
+# Python environments and caches
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Full GTSRB dataset (large; download separately)
+data/*
+!data/samples/
+data/samples/*
+!data/samples/*.png
+
+# Legacy/temporary model files
+traffic_sign_model.h5
+serialization_probe.*
